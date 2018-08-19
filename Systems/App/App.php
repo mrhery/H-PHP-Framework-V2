@@ -25,7 +25,6 @@ class App{
 				<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 			');
 			
-		
 			$page->addCssLibrary(
 				array('
 					<link href="' . Router::pathToAsset($route) . 'assets/css/custom.css" rel="stylesheet" type="text/css" media="all" />
@@ -45,7 +44,6 @@ class App{
 			
 			$page->addBottomScriptLibrary('
 				<script src="'. Router::pathToAsset($route) .'assets/js/custom.js"></script>
-				
 			');
 			
 			//$page->setMainMenu("widgets/main_menu.php", $route);
