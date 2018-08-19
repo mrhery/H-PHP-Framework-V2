@@ -5,9 +5,9 @@ require_once(__DIR__ . "/Misc/document_access.php");
 #Has been tested and developed on MySQL
 class Config{
 	public static $host 	= "127.0.0.1";
-	public static $database	= "workspac_bizdir";
-	public static $username	= "workspac_hery";
-	public static $password	= "hery@1234567890";
+	public static $database	= "db_name";
+	public static $username	= "db_user";
+	public static $password	= "db_password";
 }
 
 #Put 1 to enable show error or otherwise put 0.
@@ -16,7 +16,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 #Put your website URL
-define("PORTAL", "https://workspace.intelhost.com.my/workspace/Hery_Framework_2/");
+define("PORTAL", "https://web-dir-here.com/");
 
 
 ######################################
