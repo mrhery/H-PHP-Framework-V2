@@ -7,7 +7,8 @@ class Page{
 	private $top_script_library = array(), $top_custom_script = array();
 	private $bottom_script_library = array(), $custom_script = array();
 	private $js_obfuscate = false, $htmlhex = false;
-	private $page = array(), $route = "";
+	private $page = array(), $footer = "", $main_menu = "", $breadcumb = "", $route = "";
+	private $body = "", $contentType = "text/html";
 	
 	public function __construct($setting = array()){
 		if(isset($setting["js_obfuscate"])){
@@ -16,6 +17,10 @@ class Page{
 		
 		if(isset($setting["htmlhex"])){
 			$this->htmlhex = $setting["htmlhex"];
+		}
+		
+		if(isset($setting["Content-Type"])){
+			$this->contentType = $setting["Content-Type"];
 		}
 	}
 	
@@ -57,6 +62,26 @@ class Page{
 		array_push($this->custom_script, $string);
 	}
 	
+	public function setFooter($path){
+		$this->footer = $path;
+	}
+	
+	public function setMainMenu($path, $route = ""){
+		if(!empty($route)){
+			$this->route = $route;
+		}
+		
+		$this->main_menu = $path;
+	}
+	
+	public function setBreadcumb($path, $route = ""){
+		if(!empty($route)){
+			$this->route = $route;
+		}
+		
+		$this->breadcumb = $path;
+	}
+	
 	public function loadPage($page = "", $route = ""){
 		if(empty($page)){
 			die("Fail including page. ");
@@ -76,6 +101,10 @@ class Page{
 		array_push($this->page, $path);
 	}
 	
+	public function setBodyAttribute($attr = ""){
+		$this->body = $attr;
+	}
+	
 	public function Render(){
 		$route = $this->route;
 		$header = $this->Read("header");
@@ -90,16 +119,12 @@ class Page{
 		$header = str_replace("{META_TOP}", $meta, $header);
 		
 		$css = "";
-		foreach($this->custom_css as $r){
+		foreach($this->css_library as $r){
 			$css .= $r;
-			
-			/*$filename = Router::get("path", $r);
-			$path = dirname(__DIR__) . "/Assets/" . $filename;
-			if(file_exists($path)){
-				$css .= file_get_contents($path);
-			}*/
 		}
+		$header = str_replace("{CSS_LIBRARY}", $css, $header);
 		
+		$css = "";
 		foreach($this->load_css as $r){
 			$filename = Router::get("path", $r);
 			$path = dirname(__DIR__) . "/Assets/" . $filename;
@@ -110,11 +135,10 @@ class Page{
 		$header = str_replace("{CUSTOM_CSS}", $css, $header);
 		
 		$css = "";
-		foreach($this->css_library as $r){
+		foreach($this->custom_css as $r){
 			$css .= $r;
 		}
-		$header = str_replace("{CSS_LIBRARY}", $css, $header);
-		
+		$header = str_replace("{CUSTOM_CSS_2}", $css, $header);
 		
 		$js = "";
 		foreach($this->top_script_library as $r){
@@ -134,6 +158,10 @@ class Page{
 		
 		$header = str_replace("{TOP_CUSTOM_SCRIPT}", $js, $header);
 		
+		if(!empty($this->body)){
+			$header = str_replace("<body>", "<body " . $this->body . ">", $header);
+		}
+		
 		$js = "";
 		foreach($this->bottom_script_library as $r){
 			$js .= $r;
@@ -141,12 +169,12 @@ class Page{
 		$footer = str_replace("{BOTTOM_SCRIPT_LIBRARY}", $js, $footer);
 		
 		$js = "";
-		foreach($this->bottom_script_library as $r){
+		foreach($this->custom_script as $r){
 			$js .= $r;
 		}
 		$footer = str_replace("{BOTTOM_CUSTOM_SCRIPT}", $js, $footer);
 		
-		header("Content-Type: text/html");
+		header("Content-Type: " . $this->contentType);
 		
 		if($this->htmlhex){
 			$hex = '
@@ -165,9 +193,31 @@ class Page{
 			echo $header;
 		}
 		
+		if(!empty($this->main_menu)){
+			$path = dirname(__DIR__) . "/App/View/" . $this->main_menu;
+			if(file_exists($path)){
+				include_once($path);
+			}
+		}
+		
+		if(!empty($this->breadcumb)){
+			
+			$path = dirname(__DIR__) . "/App/View/" . $this->breadcumb;
+			if(file_exists($path)){
+				include_once($path);
+			}
+		}
+		
 		if(count($this->page) > 0){
 			for($i = 0; $i < count($this->page); $i++){
 				include_once($this->page[$i]);
+			}
+		}
+		
+		if(!empty($this->footer)){
+			$path = dirname(__DIR__) . "/App/View/" . $this->footer;
+			if(file_exists($path)){
+				include_once($path);
 			}
 		}
 		

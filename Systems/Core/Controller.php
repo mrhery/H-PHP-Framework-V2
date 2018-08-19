@@ -6,6 +6,7 @@ class Controller{
 		if(isset($_POST["submit"])){
 			if(Input::get("submit") == $_SESSION["IR"]){
 				$this->Execute(Input::get("route"));
+				F::NewReqKey();
 			}else{
 				echo "Request token expired. Please refresh and try again.";
 			}

@@ -19,58 +19,57 @@ class App{
 			}
 		}else{
 			$page = new Page();
-			$page->addMetaTop();
-			$page->addCssLibrary(
-				array(
-					'<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">',
-					'<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">'
-				)
-			);
-			$page->addLoadCss('assets/css/custom.css');
-			$page->addCustomCss("
-				.h-mt-20{
-					margin-top: 20px;
-				}
-				
-				.h-mb-20{
-					margin-bottom: 20px;
-				}
-			");
-			$page->addTopScriptLibrary('
-				<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-				<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-				<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+			$page->addMetaTop('
+				<meta charset="utf-8" />
+				<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+				<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 			');
 			
+		
+			$page->addCssLibrary(
+				array('
+					<link href="' . Router::pathToAsset($route) . 'assets/css/custom.css" rel="stylesheet" type="text/css" media="all" />
+				')
+			);
+			
+		//	$page->addLoadCss('assets/css/custom.css');
+			$page->addCustomCss("
+				body{
+					background-color: blue;
+				}
+			");
+			
+			$page->addTopScriptLibrary('
+				<script src="'. Router::pathToAsset($route) .'assets/js/custom.js"></script>
+			');
+			
+			$page->addBottomScriptLibrary('
+				<script src="'. Router::pathToAsset($route) .'assets/js/custom.js"></script>
+				
+			');
+			
+			//$page->setMainMenu("widgets/main_menu.php", $route);
+			//$page->setFooter("widgets/footer.php");
+			//$page->setBodyAttribute('class="fixed-nav sticky-footer bg-dark" id="page-top"');
+			
 			switch($main){
+				/*
+					Public area
+				*/
 				case "index":
 				case "Home":
-					$page->title = "Intelhost Cloud: Public File share & download";
+				case "home":
+					$page->title = "Hery PHP Framework V2 - Master Hery";
 					$page->loadPage("index");
 					$page->Render();
 				break;
 				
-				case "files":
-					$page->title = "Intelhost Cloud: Download  File";
-					$page->loadPage("file", $route);
-					$page->Render();
-				break;
-				
-				case "folders":
-					$page->title = "Intelhost Cloud: Download Folder";
-					$page->loadPage("folder", $route);
-					$page->Render();
-				break;
 				
 				
 				
 				
-				
-				
-				
-				
-				
-				
+				#################################################################
+				#################################################################
 				
 				/*
 				* Please left below cases and do not remove these line

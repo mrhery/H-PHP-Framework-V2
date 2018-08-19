@@ -23,6 +23,18 @@ class Loader{
 		
 		if(!is_dir($path)){
 			if(file_exists($path)){
+				$pt = pathinfo($path);
+				
+				switch($pt["extension"]){
+					case "css":
+						header("Content-Type: text/css");
+					break;
+					
+					case "js":
+						header("Content-Type: application/javascript");
+					break;
+				}
+				
 				$o = fopen($path, "r");
 				echo stream_get_contents($o);
 				fclose($o);

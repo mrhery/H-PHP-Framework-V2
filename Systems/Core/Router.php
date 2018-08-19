@@ -1,7 +1,7 @@
 <?php
 
 class Router{
-	public static function get($type, $route){
+	public static function get($type, $route, $picker = ""){
 		$arr = explode("/", $route);
 		
 		if(count($arr) > 0){
@@ -16,6 +16,10 @@ class Router{
 				
 				case "view":
 					return isset($arr[2]) ? $arr[2] : false;
+				break;
+				
+				case "picker":
+					return isset($arr[$picker]) ? $arr[$picker] : false;
 				break;
 				
 				case "path":
