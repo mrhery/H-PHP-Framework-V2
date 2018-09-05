@@ -16,6 +16,7 @@ class F{
 	}
 	
 	public static function URLSlugEncode($url){
+		$url = str_replace("-", "x00", $url);
 		$url = str_replace(" ", "-", $url);
 		$url = str_replace("&", "x01", $url);
 		$url = str_replace("?", "x02", $url);
@@ -28,6 +29,7 @@ class F{
 	
 	public static function URLSlugDecode($url, $specialChars = false){
 		$url = str_replace("-", " ", $url);
+		$url = str_replace("x00", "-", $url);
 		$url = str_replace("x01", "&", $url);
 		$url = str_replace("x02", "?", $url);
 		$url = str_replace("x03", "#", $url);
@@ -130,14 +132,6 @@ class F{
 			$string = substr($string, 0, $limit) . ' ...';
 		}
 		return $string;
-	}
-	
-	public static function ResetSession(){
-		@$_SESSION["intelhost-homestay"] = array();
-		@$_SESSION["intelhost-ticketing"] = array();
-		@$_SESSION["intelhost-car-rental"] = array();
-		@$_SESSION["intelhost-tours-guide"] = array();
-		@$_SESSION["intelhost-tourism"] = array();
 	}
 	
 	public static function ObjInArray($array, $index, $value)
