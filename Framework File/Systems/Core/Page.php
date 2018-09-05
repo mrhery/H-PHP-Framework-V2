@@ -235,6 +235,14 @@ class Page{
 		
 		return $string;
 	}
+	
+	public static function Load($path, $route = ""){
+		if(file_exists(PAGES . $path . ".php")){
+			include_once(PAGES . $path . ".php");
+		}else{
+			die("file " . PAGES . $path . " not found");
+		}
+	}
 }
 
 
