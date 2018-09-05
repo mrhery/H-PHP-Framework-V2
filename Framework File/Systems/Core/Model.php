@@ -65,7 +65,24 @@ class Model{
 	}
 	
 	public function getBy($column, $data){
-		$sql = "SELECT * FROM {$this->table} WHERE {$column} = ?";
+		if(is_array($column)){
+			if(count($column) > 0){
+				$i = 0;
+				foreach($column as $col){
+					if($i == 0){
+						$sql .= " " . $col . " = ?";
+					}else{
+						$sql .= " AND " . $col . " = ?";
+					}
+					
+					$i++;
+				}
+			}else{
+				return false;
+			}
+		}else{
+			$sql = "SELECT * FROM {$this->table} WHERE {$column} = ?";
+		}
 		
 		if($this->debug){
 			return $sql;
