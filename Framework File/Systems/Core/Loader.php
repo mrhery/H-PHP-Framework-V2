@@ -63,6 +63,12 @@ class Loader{
 			die("You re not allowed to access this page.");
 		}
 	}
+	
+	public static function Class($path){
+		if(file_exists(CLASSES . $path . ".php")){
+			include_once(CLASSES . $path . ".php");
+		}
+	}
 }
 
 ?>
